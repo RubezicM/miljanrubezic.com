@@ -6,7 +6,7 @@ import {
 } from "@apollo/client";
 
 const httpLink = new HttpLink({
-  uri: `${process.env.STRAPI_GRAPHQL_URL}`,
+  uri: `${process.env.NEXT_PUBLIC_STRAPI_GRAPHQL_URL}`,
   fetch: function (uri, options) {
     return fetch(uri, {
       ...(options ?? {}),
@@ -24,7 +24,6 @@ const gqlClient = new ApolloClient({
   defaultOptions: {
     query: {
       fetchPolicy: "network-only",
-      errorPolicy: "all",
     },
   },
 });
