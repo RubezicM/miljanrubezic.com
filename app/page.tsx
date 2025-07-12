@@ -1,15 +1,19 @@
 import Homepage from "@/components/pages/Homepage";
-import { query, getClient } from "@/lib/apollo-client";
+import { query } from "@/lib/apollo-client";
+
 import { GET_HOMEPAGE_DATA } from "@/lib/queries";
 
-export const revalidate = 3600;
+export const revalidate = 60;
 
 export default async function Home() {
-  const client = getClient();
-  const { data } = await client.query({
+
+  const { data } = await query({
     query: GET_HOMEPAGE_DATA,
     context: {
-      next: { revalidate: 3600 },
+      fetchOptions: {
+        next: { revalidate: 60 },
+      },
+>>>>>>> 6fc8a8f7ab463c33afc6dd7b5df1c360f05f7ab1
     },
   });
 

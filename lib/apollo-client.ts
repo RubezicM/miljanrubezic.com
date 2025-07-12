@@ -1,4 +1,4 @@
-import { HttpLink, ApolloClient as kuita } from "@apollo/client";
+import { HttpLink } from "@apollo/client";
 
 import { loadEnvConfig } from "@next/env";
 const projectDir = process.cwd();
