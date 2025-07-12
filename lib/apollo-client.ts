@@ -1,9 +1,14 @@
+import { HttpLink, ApolloClient as kuita } from "@apollo/client";
+
+import { loadEnvConfig } from "@next/env";
+const projectDir = process.cwd();
+loadEnvConfig(projectDir);
+
 import {
+  registerApolloClient,
   ApolloClient,
   InMemoryCache,
-  HttpLink,
-  ApolloLink,
-} from "@apollo/client";
+} from "@apollo/client-integration-nextjs";
 
 const httpLink = new HttpLink({
   uri: process.env.NEXT_PUBLIC_STRAPI_GRAPHQL_URL,
@@ -21,6 +26,7 @@ const httpLink = new HttpLink({
         ...(options?.headers ?? {}),
         Authorization: `Bearer ${apiKey}`,
       },
+      next: { revalidate: 3600 },
     }).catch((error) => {
       console.error("❌ Apollo fetch failed:", error);
       throw error;
@@ -28,14 +34,15 @@ const httpLink = new HttpLink({
   },
 });
 
-const gqlClient = new ApolloClient({
-  link: ApolloLink.from([httpLink]),
-  cache: new InMemoryCache(),
-  defaultOptions: {
-    query: {
-      fetchPolicy: "cache-first",
+export const { query, getClient } = registerApolloClient(() => {
+  return new ApolloClient({
+    cache: new InMemoryCache(),
+    link: httpLink,
+    defaultOptions: {
+      query: {
+        fetchPolicy: "network-only",
+        errorPolicy: "all",
+      },
     },
-  },
+  });
 });
-
-export default gqlClient;
