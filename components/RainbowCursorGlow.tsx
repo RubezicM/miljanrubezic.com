@@ -20,7 +20,9 @@ const RainbowCursorGlow = () => {
     window.addEventListener("mousemove", moveGlow);
     return () => window.removeEventListener("mousemove", moveGlow);
   }, [isDesktop]);
+
   if (!isDesktop) return null;
+
   return (
     <div
       ref={glowRef}

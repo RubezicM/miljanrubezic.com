@@ -6,14 +6,24 @@ import {
 } from "@apollo/client";
 
 const httpLink = new HttpLink({
-  uri: `${process.env.NEXT_PUBLIC_STRAPI_GRAPHQL_URL}`,
+  uri: process.env.NEXT_PUBLIC_STRAPI_GRAPHQL_URL,
   fetch: function (uri, options) {
+    const apiKey = process.env.STRAPI_API_KEY;
+
+    if (!apiKey) {
+      console.error("❌ Missing STRAPI_API_KEY");
+      throw new Error("STRAPI_API_KEY not found");
+    }
+
     return fetch(uri, {
       ...(options ?? {}),
       headers: {
         ...(options?.headers ?? {}),
-        Authorization: `Bearer ${process.env.STRAPI_API_KEY}`,
+        Authorization: `Bearer ${apiKey}`,
       },
+    }).catch((error) => {
+      console.error("❌ Apollo fetch failed:", error);
+      throw error;
     });
   },
 });
@@ -23,7 +33,7 @@ const gqlClient = new ApolloClient({
   cache: new InMemoryCache(),
   defaultOptions: {
     query: {
-      fetchPolicy: "network-only",
+      fetchPolicy: "cache-first",
     },
   },
 });

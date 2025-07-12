@@ -6,8 +6,6 @@ import React from "react";
 import type { Metadata } from "next";
 
 import Header from "@/components/Header";
-import Cursor from "@/components/Cursor";
-import RainbowCursorGlow from "@/components/RainbowCursorGlow";
 
 import { CursorProvider } from "@/context/CursorContext";
 import { TransitionProvider } from "@/context/TransitionProvider";
@@ -15,6 +13,8 @@ import { TransitionProvider } from "@/context/TransitionProvider";
 import gqlClient from "@/lib/apollo-client";
 import { GET_SEO_DATA } from "@/lib/queries";
 import { generateMetadataObject } from "@/lib/metadata";
+import dynamic from "next/dynamic";
+import ClientWrapper from "@/components/ClientWrapper";
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 
@@ -69,11 +69,11 @@ export default function RootLayout({
       )}
       <body
         className={`${robotoMono.variable} ${outfit.variable} bg-[#0c0c0c]`}
+        suppressHydrationWarning
       >
         <TransitionProvider>
           <CursorProvider>
-            <RainbowCursorGlow />
-            <Cursor />
+            <ClientWrapper />
             <Header />
             {children}
           </CursorProvider>

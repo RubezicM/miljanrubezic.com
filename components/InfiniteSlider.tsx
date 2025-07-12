@@ -1,3 +1,5 @@
+"use client";
+
 import React, { ReactNode, useRef, useEffect } from "react";
 import { motion, useAnimation, useInView } from "framer-motion";
 import { useMinWidth } from "@/hooks/useMinWidth";
@@ -7,7 +9,10 @@ interface InfiniteSliderProps {
   speed?: number;
 }
 
-export function InfiniteSlider({ children, speed = 100 }: InfiniteSliderProps) {
+export default function InfiniteSlider({
+  children,
+  speed = 100,
+}: InfiniteSliderProps) {
   const trackRef = useRef<HTMLDivElement>(null);
   const inViewRef = useRef<HTMLDivElement>(null);
   const controls = useAnimation();

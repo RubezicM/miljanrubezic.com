@@ -1,11 +1,11 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
 import React from "react";
 import { motion } from "framer-motion";
 import servicesAnimation, { parent } from "@/animations/services";
-import HoverEffect from "@/components/HoverEffect";
 import { BsArrowDownRight } from "react-icons/bs";
-import { InfiniteSlider } from "@/components/InfiniteSlider";
 import {
   Tooltip,
   TooltipContent,
@@ -14,6 +14,12 @@ import {
 } from "@/components/ui/tooltip";
 import Image from "next/image";
 
+const HoverEffect = dynamic(() => import("@/components/HoverEffect"), {
+  ssr: false,
+});
+const InfiniteSlider = dynamic(() => import("@/components/InfiniteSlider"), {
+  ssr: false,
+});
 import type {
   ComponentSharedServicesSection,
   Service,

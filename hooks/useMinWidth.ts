@@ -9,18 +9,13 @@ export function useMinWidth(minWidth: number) {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-
     const query = `(min-width: ${minWidth}px)`;
     const mql = window.matchMedia(query);
-
     setMatches(mql.matches);
-
     const handler = (e: MediaQueryListEvent) => {
       setMatches(e.matches);
     };
-
     mql.addEventListener("change", handler);
-
     return () => {
       mql.removeEventListener("change", handler);
     };
