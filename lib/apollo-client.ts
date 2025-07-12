@@ -1,9 +1,14 @@
+import { HttpLink } from "@apollo/client";
+
+import { loadEnvConfig } from "@next/env";
+const projectDir = process.cwd();
+loadEnvConfig(projectDir);
+
 import {
+  registerApolloClient,
   ApolloClient,
   InMemoryCache,
-  HttpLink,
-  ApolloLink,
-} from "@apollo/client";
+} from "@apollo/client-integration-nextjs";
 
 const httpLink = new HttpLink({
   uri: process.env.NEXT_PUBLIC_STRAPI_GRAPHQL_URL,
@@ -28,14 +33,9 @@ const httpLink = new HttpLink({
   },
 });
 
-const gqlClient = new ApolloClient({
-  link: ApolloLink.from([httpLink]),
-  cache: new InMemoryCache(),
-  defaultOptions: {
-    query: {
-      fetchPolicy: "cache-first",
-    },
-  },
+export const { query } = registerApolloClient(() => {
+  return new ApolloClient({
+    cache: new InMemoryCache(),
+    link: httpLink,
+  });
 });
-
-export default gqlClient;

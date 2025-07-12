@@ -10,10 +10,9 @@ import Header from "@/components/Header";
 import { CursorProvider } from "@/context/CursorContext";
 import { TransitionProvider } from "@/context/TransitionProvider";
 
-import gqlClient from "@/lib/apollo-client";
+import { query } from "@/lib/apollo-client";
 import { GET_SEO_DATA } from "@/lib/queries";
 import { generateMetadataObject } from "@/lib/metadata";
-import dynamic from "next/dynamic";
 import ClientWrapper from "@/components/ClientWrapper";
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
@@ -37,7 +36,7 @@ const outfit = Outfit({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { data } = await gqlClient.query({
+  const { data } = await query({
     query: GET_SEO_DATA,
   });
 
