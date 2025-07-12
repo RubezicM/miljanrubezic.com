@@ -3,17 +3,15 @@ import { query } from "@/lib/apollo-client";
 
 import { GET_HOMEPAGE_DATA } from "@/lib/queries";
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export default async function Home() {
-
   const { data } = await query({
     query: GET_HOMEPAGE_DATA,
     context: {
       fetchOptions: {
-        next: { revalidate: 60 },
+        next: { revalidate: 3600 },
       },
->>>>>>> 6fc8a8f7ab463c33afc6dd7b5df1c360f05f7ab1
     },
   });
 
