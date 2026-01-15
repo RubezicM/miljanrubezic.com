@@ -36,6 +36,12 @@ ENV NEXT_PUBLIC_SENTRY_DSN=${NEXT_PUBLIC_SENTRY_DSN}
 # 6 run the codegen
 RUN pnpm run codegen
 # 6️⃣ Build the Next.js application
+
+RUN echo "🔍 Checking environment variables:" && \
+    echo "NEXT_PUBLIC_STRAPI_GRAPHQL_URL = $NEXT_PUBLIC_STRAPI_GRAPHQL_URL" && \
+    echo "STRAPI_API_KEY = ${STRAPI_API_KEY:0:10}..." && \
+    env | grep STRAPI || echo "No STRAPI env vars found" \
+
 RUN pnpm run build
 
 # 7️⃣ Use a lightweight Node.js image for production
@@ -43,6 +49,21 @@ FROM node:18-alpine AS runner
 
 # 8️⃣ Set environment to production
 ENV NODE_ENV=production
+
+# ADD THESE LINES ↓
+ARG NEXT_PUBLIC_GA_ID
+ARG NEXT_PUBLIC_STRAPI_GRAPHQL_URL
+ARG STRAPI_API_KEY
+ARG NEXT_PUBLIC_STRAPI_URL
+ARG SENTRY_AUTH_TOKEN
+ARG NEXT_PUBLIC_SENTRY_DSN
+
+ENV NEXT_PUBLIC_GA_ID=${NEXT_PUBLIC_GA_ID}
+ENV NEXT_PUBLIC_STRAPI_GRAPHQL_URL=${NEXT_PUBLIC_STRAPI_GRAPHQL_URL}
+ENV STRAPI_API_KEY=${STRAPI_API_KEY}
+ENV NEXT_PUBLIC_STRAPI_URL=${NEXT_PUBLIC_STRAPI_URL}
+ENV SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
+ENV NEXT_PUBLIC_SENTRY_DSN=${NEXT_PUBLIC_SENTRY_DSN}
 
 # 9️⃣ Set the working directory
 WORKDIR /app

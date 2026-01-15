@@ -4,12 +4,12 @@ import { loadEnvConfig } from "@next/env";
 const projectDir = process.cwd();
 loadEnvConfig(projectDir);
 const GRAPHQL_ENDPOINT =
-  process.env.STRAPI_GRAPHQL_URL || "http://localhost:1337/graphql";
+  process.env.NEXT_PUBLIC_STRAPI_GRAPHQL_URL;
 
 const config: CodegenConfig = {
   overwrite: true,
   schema: {
-    [GRAPHQL_ENDPOINT]: {
+    ["https://cms.miljanrubezic.com/graphql"]: {
       headers: {
         "User-Agent": "Codegen",
         Authorization: `Bearer ${process.env.STRAPI_API_KEY}`,
