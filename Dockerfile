@@ -37,11 +37,6 @@ ENV NEXT_PUBLIC_SENTRY_DSN=${NEXT_PUBLIC_SENTRY_DSN}
 RUN pnpm run codegen
 # 6️⃣ Build the Next.js application
 
-RUN echo "🔍 Checking environment variables:" && \
-    echo "NEXT_PUBLIC_STRAPI_GRAPHQL_URL = $NEXT_PUBLIC_STRAPI_GRAPHQL_URL" && \
-    echo "STRAPI_API_KEY = ${STRAPI_API_KEY:0:10}..." && \
-    env | grep STRAPI || echo "No STRAPI env vars found" \
-
 RUN pnpm run build
 
 # 7️⃣ Use a lightweight Node.js image for production
