@@ -1,8 +1,5 @@
 import { CodegenConfig } from "@graphql-codegen/cli";
-import { loadEnvConfig } from "@next/env";
 
-const projectDir = process.cwd();
-loadEnvConfig(projectDir);
 const GRAPHQL_ENDPOINT =
   process.env.NEXT_PUBLIC_STRAPI_GRAPHQL_URL || "http://localhost:1337/graphql";
 
